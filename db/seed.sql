@@ -6,11 +6,11 @@ INSERT INTO crew (name) VALUES
 ('Crew Operations');
 
 INSERT INTO positions (title, salary, crew_id) VALUES
-('Captain', 70000.00, 1),
-('Treasure Keeper', 60000.00, 2),
-('Ship Navigator', 80000.00, 3),
-('Rum Master', 65000.00, 4),
-('Operations Officer', 75000.00, 5);
+('Captain', 150000.00, 1),
+('Treasure Keeper', 100000.00, 2),
+('Ship Navigator', 90000.00, 3),
+('Rum Master', 80000.00, 4),
+('Operations Officer', 80000.00, 5);
 
 INSERT INTO pirate (first_name, last_name, position_id, captain_id) VALUES
 ('Blackbeard', 'Pirate', 1, NULL),      

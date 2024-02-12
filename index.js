@@ -205,7 +205,7 @@ function addPirate() {
 
 // Ahoy! Let's set sail with ElevateHR - Empower Your Workforce!
 async function generateTitle() {
-  const titleText = "Pirate Plunderers";
+  const titleText = "ElevateHR!";
 
   return new Promise((resolve, reject) => {
     ascii.font(titleText, "doom", (err, rendered) => {
