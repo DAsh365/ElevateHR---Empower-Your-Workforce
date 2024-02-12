@@ -1,0 +1,25 @@
+{
+  "name": "elevatehr-empower-your-workforce",
+  "version": "1.0.0",
+  "description": "Empower Your Workforce with ElevateHR: Streamlining Efficiency, Elevating Performance.",
+  "main": "index.js",
+  "scripts": {
+    "test": "npm test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/DAsh365/ElevateHR---Empower-Your-Workforce"
+  },
+  "author": "Devan Ash",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/DAsh365/ElevateHR---Empower-Your-Workforce/issues"
+  },
+  "homepage": "https://github.com/DAsh365/ElevateHR---Empower-Your-Workforce/blob/main/README.md",
+  "dependencies": {
+    "ascii-art": "^2.8.5",
+    "inquirer": "^8.2.0",
+    "mysql2": "^2.3.0",
+    "table": "^6.8.1"
+  }
+}
