@@ -5,9 +5,9 @@ const ascii = require("ascii-art");
 
 const connection = mysql.createPool({
   host: "localhost",
-  user: "computer",
+  user: "root",
   password: "",
-  database: "employment_db",
+  database: "ElevateHR_db",
 });
 
 function viewAllDepartments() {
