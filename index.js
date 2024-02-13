@@ -1,35 +1,30 @@
-// Ahoy, matey! Hoist the sails and let's embark on an adventure with ElevateHR - Empower Your Workforce!
-
 const inquirer = require("inquirer");
 const mysql = require("mysql2");
 const { table } = require("table");
 const ascii = require("ascii-art");
 
-// Avast! Set up ye database connection, ye scallywags!
 const connection = mysql.createPool({
   host: "localhost",
-  user: "root",
+  user: "computer",
   password: "",
-  database: "employee_tracker_db",
+  database: "employment_db",
 });
 
-// Aye, behold the view of all our crew members!
-function viewAllCrews() {
+function viewAllDepartments() {
   connection.query(
-    { sql: "SELECT name FROM crew", rowsAsArray: true },
+    { sql: "SELECT name FROM department", rowsAsArray: true },
     (err, results) => {
       if (err) throw err;
-      results.unshift(["Crew"]);
+      results.unshift(["Name"]);
       console.log(table(results));
       mainMenu();
     }
   );
 }
 
-// Arr! Look at the treasure in our positions!
-function viewAllPositions() {
+function viewAllRoles() {
   connection.query(
-    { sql: "SELECT title, salary FROM positions", rowsAsArray: true },
+    { sql: "SELECT title, salary FROM roles", rowsAsArray: true },
     (err, results) => {
       if (err) throw err;
       results.unshift(["Title", "Salary"]);
@@ -39,102 +34,99 @@ function viewAllPositions() {
   );
 }
 
-// Shiver me timbers! Feast yer eyes on our scurvy pirates!
-function viewAllPirates() {
+function viewAllEmployees() {
   connection.query(
     {
-      sql: `SELECT p.id, p.first_name, p.last_name, pos.title, c.name AS crew_name, pos.salary, CONCAT(m.first_name , ' ' , m.last_name) AS captain_name
-      FROM pirate p 
-      LEFT JOIN positions pos ON pos.id = p.position_id 
-      LEFT JOIN crew c ON c.id = pos.crew_id 
-      LEFT JOIN pirate m ON m.id = p.captain_id`,
+      sql: `SELECT e.id, e.first_name, e.last_name, r.title, d.name, r.salary, CONCAT(m.first_name , ' ' , m.last_name) AS manager_name
+      FROM employee e 
+      LEFT JOIN roles r ON r.id = e.role_id 
+      LEFT JOIN department d ON d.id = r.department_id 
+      LEFT JOIN employee m ON m.id = e.manager_id`,
       rowsAsArray: true,
     },
-    (err, pirates) => {
+    (err, employees) => {
       if (err) throw err;
-      pirates.unshift([
+      employees.unshift([
         "ID",
         "First Name",
         "Last Name",
         "Title",
-        "Crew",
+        "Department",
         "Salary",
-        "Captain",
+        "Manager",
       ]);
-      console.log(table(pirates));
+      console.log(table(employees));
       mainMenu();
     }
   );
 }
 
-// Avast ye, add a new crew to our fleet!
-function addCrew() {
+function addDepartment() {
   inquirer
     .prompt([
       {
         type: "input",
-        name: "crewName",
-        message: "Arr! Enter the name of the crew:",
+        name: "departmentName",
+        message: "Enter the name of the department:",
       },
     ])
     .then((answers) => {
       connection.query(
-        "INSERT INTO crew SET ?",
-        { name: answers.crewName },
+        "INSERT INTO department SET ?",
+        { name: answers.departmentName },
         (err) => {
           if (err) throw err;
 
-          console.log("Crew added successfully. Shiver me timbers!");
+          console.log("Department added successfully.");
           mainMenu();
         }
       );
     });
 }
 
-// Ahoy! Add a new position for our braveheart pirates!
-function addPosition() {
-  connection.query("SELECT * FROM crew", (err, crew) => {
+function addRole() {
+  connection.query("SELECT * FROM department", (err, department) => {
     if (err) throw err;
     inquirer
       .prompt([
         {
           type: "input",
-          name: "positionName",
-          message: "Enter the name of the position:",
+          name: "roleName",
+          message: "Enter the name of the role:",
         },
         {
           type: "input",
           name: "salary",
           message:
-            "Yar! Enter the treasure for this position (use only 2 decimal points and no commas):",
+            "Enter the salary for this role (use only 2 decimal points and no commas):",
           validate: function (value) {
             const valid =
               !isNaN(parseFloat(value)) && Number.isFinite(parseFloat(value));
-            return valid || "Arr! Please enter a valid treasure.";
+            return valid || "Please enter a valid salary.";
           },
         },
         {
           type: "list",
-          name: "crewId",
-          message: "Select the crew for the position:",
-          choices: crew.map((crew) => ({
-            name: crew.name,
-            value: crew.id,
+          name: "departmentId",
+          message: "Select the department for the role:",
+          choices: department.map((department) => ({
+            name: department.name,
+            value: department.id,
           })),
         },
       ])
       .then((answers) => {
         connection.query(
-          "INSERT INTO positions SET ?",
+          "INSERT INTO roles SET ?",
           {
-            title: answers.positionName,
+            title: answers.roleName,
             salary: answers.salary,
-            crew_id: answers.crewId,
+            department_id: answers.departmentId,
           },
           (err) => {
             if (err) throw err;
 
-            console.log("Position added successfully. Yo ho ho!");
+            console.log("Role added successfully.");
             mainMenu();
           }
         );
@@ -142,59 +134,58 @@ function addPosition() {
   });
 }
 
-// Avast, add a new pirate to our ranks!
-function addPirate() {
-  connection.query("SELECT * FROM positions", (err, positions) => {
+function addEmployee() {
+  connection.query("SELECT * FROM roles", (err, roles) => {
     if (err) throw err;
-    connection.query("SELECT * FROM pirate", (err, pirate) => {
+    connection.query("SELECT * FROM employee", (err, employee) => {
       if (err) throw err;
       inquirer
         .prompt([
           {
             type: "input",
             name: "firstName",
-            message: "Arr! Enter the first name of the pirate:",
+            message: "Enter the first name of the employee:",
           },
           {
             type: "input",
             name: "lastName",
-            message: "Avast ye! Enter the last name of the pirate:",
+            message: "Enter the last name of the employee:",
           },
           {
             type: "list",
-            name: "positionId",
-            message: "Select the position for the pirate:",
-            choices: positions.map((pos) => ({
-              name: pos.title,
-              value: pos.id,
+            name: "roleId",
+            message: "Select the role for the employee:",
+            choices: roles.map((role) => ({
+              name: role.title,
+              value: role.id,
             })),
           },
           {
             type: "list",
-            name: "captainId",
-            message: "Arr! Select the captain for the pirate:",
+            name: "managerId",
+            message: "Select the manager for the employee:",
             choices: [
               { name: "None", value: null },
-              ...pirate.map((pirate) => ({
-                name: `${pirate.first_name} ${pirate.last_name}`,
-                value: pirate.id,
+              ...employee.map((employee) => ({
+                name: `${employee.first_name} ${employee.last_name}`,
+                value: employee.id,
               })),
             ],
           },
         ])
         .then((answers) => {
           connection.query(
-            "INSERT INTO pirate SET ?",
+            "INSERT INTO employee SET ?",
             {
               first_name: answers.firstName,
               last_name: answers.lastName,
-              position_id: answers.positionId,
-              captain_id: answers.captainId,
+              role_id: answers.roleId,
+              manager_id: answers.managerId,
             },
             (err) => {
               if (err) throw err;
 
-              console.log("Pirate added successfully. Yo ho ho!");
+              console.log("Employee added successfully.");
               mainMenu();
             }
           );
@@ -203,9 +194,53 @@ function addPirate() {
   });
 }
 
-// Ahoy! Let's set sail with ElevateHR - Empower Your Workforce!
+function updateEmployeeRole() {
+  connection.query("SELECT * FROM employee", (err, employee) => {
+    if (err) throw err;
+    inquirer
+      .prompt([
+        {
+          type: "list",
+          name: "employeeId",
+          message: "Select the employee to update:",
+          choices: employee.map((employee) => ({
+            name: `${employee.first_name} ${employee.last_name}`,
+            value: employee.id,
+          })),
+        },
+      ])
+      .then((employeeAnswer) => {
+        connection.query("SELECT * FROM roles", (err, roles) => {
+          if (err) throw err;
+          inquirer
+            .prompt([
+              {
+                type: "list",
+                name: "roleId",
+                message: "Select the new role for the employee:",
+                choices: roles.map((role) => ({
+                  name: role.title,
+                  value: role.id,
+                })),
+              },
+            ])
+            .then((roleAnswer) => {
+              connection.query(
+                "UPDATE employee SET role_id = ? WHERE id = ?",
+                [roleAnswer.roleId, employeeAnswer.employeeId],
+                (err) => {
+                  if (err) throw err;
+                  console.log("Employee role updated successfully.");
+                  mainMenu();
+                }
+              );
+            });
+        });
+      });
+  });
+}
 async function generateTitle() {
-  const titleText = "ElevateHR!";
+  const titleText = "ElevateHR";
 
   return new Promise((resolve, reject) => {
     ascii.font(titleText, "doom", (err, rendered) => {
@@ -224,57 +259,58 @@ async function generateTitle() {
   });
 }
 
-// Avast, matey! Welcome to the main menu!
 async function mainMenu() {
   try {
     const answers = await inquirer.prompt([
       {
         type: "list",
         name: "action",
-        message: "What would ye like to do?",
+        message: "What would you like to do?",
         choices: [
-          "Add a crew",
-          "View all crews",
-          "Add a position",
-          "View all positions",
-          "Add a pirate",
-          "View all pirates",
+          "Add a department",
+          "View all departments",
+          "Add a role",
+          "View all roles",
+          "Add an employee",
+          "View all employees",
+          "Update an employee role",
           "Exit",
         ],
       },
     ]);
 
     switch (answers.action) {
-      case "View all crews":
-        viewAllCrews();
+      case "View all departments":
+        viewAllDepartments();
         break;
-      case "View all positions":
-        viewAllPositions();
+      case "View all roles":
+        viewAllRoles();
         break;
-      case "View all pirates":
-        viewAllPirates();
+      case "View all employees":
+        viewAllEmployees();
         break;
-      case "Add a crew":
-        addCrew();
+      case "Add a department":
+        addDepartment();
         break;
-      case "Add a position":
-        addPosition();
+      case "Add a role":
+        addRole();
         break;
-      case "Add a pirate":
-        addPirate();
+      case "Add an employee":
+        addEmployee();
+        break;
+      case "Update an employee role":
+        updateEmployeeRole();
         break;
       case "Exit":
         connection.end();
-        console.log("Shiver me timbers! Farewell, matey!");
+        console.log("Goodbye!");
         break;
       default:
-        console.log("Arrr! That's not a valid choice. Try again.");
+        console.log("Invalid choice. Please try again.");
         mainMenu();
     }
   } catch (error) {
-    console.error("Ye scallywag! An error occurred:", error);
+    console.error("An error occurred:", error);
   }
 }
-
-// Avast ye, prepare to set sail with ElevateHR - Empower Your Workforce!
 generateTitle();

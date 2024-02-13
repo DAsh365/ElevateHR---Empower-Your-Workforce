@@ -1,33 +1,33 @@
-DROP DATABASE IF EXISTS employee_tracker_db;
+DROP DATABASE IF EXISTS ElevateHR_db;
 
-CREATE DATABASE employee_tracker_db;
-USE employee_tracker_db;
+CREATE DATABASE ElevateHR_db;
+USE ElevateHR_db;
 
-DROP TABLE IF EXISTS crew;
-DROP TABLE IF EXISTS positions;
-DROP TABLE IF EXISTS pirate;
+DROP TABLE IF EXISTS department;
+DROP TABLE IF EXISTS roles;
+DROP TABLE IF EXISTS employee;
 
-CREATE TABLE crew (
+CREATE TABLE department (
     id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
     name VARCHAR(50) NOT NULL
 );
 
-CREATE TABLE positions (
+CREATE TABLE roles (
     id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
     title VARCHAR(50) NOT NULL,
     salary DECIMAL(10, 2) NOT NULL,
-    crew_id INT,
-    FOREIGN KEY (crew_id)
-    REFERENCES crew(id)
+    department_id INT,
+    FOREIGN KEY (department_id)
+    REFERENCES department(id)
     ON DELETE SET NULL
 );
 
-CREATE TABLE pirate (
+CREATE TABLE employee (
     id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
     first_name VARCHAR(50) NOT NULL,
     last_name VARCHAR(50) NOT NULL,
-    position_id INT,
-    captain_id INT,
-    FOREIGN KEY (position_id) REFERENCES positions(id) ON DELETE SET NULL,
-    FOREIGN KEY (captain_id) REFERENCES pirate(id) ON DELETE SET NULL
+    role_id INT,
+    manager_id INT,
+    FOREIGN KEY (role_id) REFERENCES roles(id) ON DELETE SET NULL,
+    FOREIGN KEY (manager_id) REFERENCES employee(id) ON DELETE SET NULL
 );
