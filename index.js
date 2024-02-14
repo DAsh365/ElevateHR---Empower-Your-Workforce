@@ -252,7 +252,7 @@ async function generateTitle() {
         try {
           mainMenu();
         } catch (error) {
-          console.error("An error has occurred in mainMenu:", error);
+          console.error("There was an error that occurred in mainMenu:", error);
         }
       }
     });
