@@ -26,7 +26,7 @@ ElevateHR is a comprehensive tool designed to streamline HR processes, facilitat
 -Follow the prompts to add, view, or update departments, roles, and employees as needed.
 
 ## Video Demo
-[Watch the video demo](https://www.youtube.com/watch?v=yourvideourl)
+[Watch the video demo](https://drive.google.com/file/d/1KPfUmtcV7H4bHApZfX-fZQaT4ISFD6oX/view?usp=sharing)
 
 ## Technologies Used
 - Node.js
