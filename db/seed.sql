@@ -6,7 +6,7 @@ INSERT INTO department (name) VALUES
 ('Operations');
 
 INSERT INTO roles (title, salary, department_id) VALUES
-('Human Resources Manager', 100000.00, 1),
+('Human Resources Manager', 950000.00, 1),
 ('Finance Analyst', 80000.00, 2),
 ('Software Developer', 90000.00, 3),
 ('Marketing Specialist', 75000.00, 4),

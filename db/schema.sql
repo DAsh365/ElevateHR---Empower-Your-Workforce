@@ -1,7 +1,7 @@
-DROP DATABASE IF EXISTS ElevateHR_db;
+DROP DATABASE IF EXISTS employment_db;
 
-CREATE DATABASE ElevateHR_db;
-USE ElevateHR_db;
+CREATE DATABASE employment_db;
+USE employment_db;
 
 DROP TABLE IF EXISTS department;
 DROP TABLE IF EXISTS roles;
@@ -31,3 +31,4 @@ CREATE TABLE employee (
     FOREIGN KEY (role_id) REFERENCES roles(id) ON DELETE SET NULL,
     FOREIGN KEY (manager_id) REFERENCES employee(id) ON DELETE SET NULL
 );
+
