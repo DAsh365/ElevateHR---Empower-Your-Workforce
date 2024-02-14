@@ -6,7 +6,7 @@ const ascii = require("ascii-art");
 const connection = mysql.createPool({
   host: "localhost",
   user: "root",
-  password: "",
+  password: "Dogmeat13325!",
   database: "ElevateHR_db",
 });
 
@@ -252,7 +252,7 @@ async function generateTitle() {
         try {
           mainMenu();
         } catch (error) {
-          console.error("An error occurred in mainMenu:", error);
+          console.error("An error has occurred in mainMenu:", error);
         }
       }
     });
