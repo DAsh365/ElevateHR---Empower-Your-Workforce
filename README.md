@@ -18,8 +18,7 @@ ElevateHR be a robust tool fer managin' yer crew, swashbucklers, and buccaneers 
 2. Navigate t' the project directory: `cd ElevateHR---Empower-Your-Workforce`
 3. Gather yer crew and install dependencies: `npm install`
 4. Unearth buried treasure and set up the database using the provided schema and seed files.
-5. Adjust yer compass and configure the database connection in the `connection.js` file.
-6. Raise the anchor and run the application: `node index.js`
+5. Raise the anchor and run the application: `node index.js`
 
 ## Usage
 - Upon settin' sail with the application, ye'll be greeted with a hearty menu o' options.

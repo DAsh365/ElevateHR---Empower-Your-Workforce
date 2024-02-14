@@ -17,7 +17,7 @@
   },
   "homepage": "https://github.com/DAsh365/ElevateHR---Empower-Your-Workforce/blob/main/README.md",
   "dependencies": {
-    "ascii-art": "^2.8.5",
+    "ascii-art": "^1.5.1",
     "inquirer": "^8.2.0",
     "mysql2": "^2.3.0",
     "table": "^6.8.1"
