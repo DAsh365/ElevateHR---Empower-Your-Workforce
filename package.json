@@ -4,15 +4,15 @@
   "description": "Empower Your Workforce with ElevateHR: Streamlining Efficiency, Elevating Performance.",
   "main": "index.js",
   "scripts": {
-     "test": "npm test"
+    "test": "npm test"
   },
   "author": "Devan Ash",
   "license": "UNLICENSED",
-    "homepage": "https://github.com/DAsh365/ElevateHR---Empower-Your-Workforce",
-    "dependencies": {
-      "ascii-art": "^2.8.5",
-      "inquirer": "^8.2.0",
-      "mysql2": "^2.3.0",
-      "table": "^6.8.1"
-    }
- }
+  "homepage": "https://github.com/DAsh365/ElevateHR---Empower-Your-Workforce",
+  "dependencies": {
+    "ascii-art": "^2.8.5",
+    "inquirer": "^8.2.0",
+    "mysql2": "^2.3.0",
+    "table": "^6.8.1"
+  }
+}
